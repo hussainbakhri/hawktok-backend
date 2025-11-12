@@ -12,9 +12,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // CORS configuration - Allow your Hostinger frontend domain
-const allowedOrigin = process.env.CLIENT_ORIGIN || '*';
 app.use(cors({
-  origin: allowedOrigin,
+  origin: process.env.CLIENT_ORIGIN || "https://hawktok.com",
   methods: ['GET', 'POST', 'OPTIONS'],
   credentials: true
 }));
@@ -26,6 +25,7 @@ app.use(express.json());
 console.log("🔍 Environment Check:");
 console.log("EMAIL_USER:", process.env.EMAIL_USER);
 console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "***SET***" : "NOT SET");
+console.log("CLIENT_ORIGIN:", process.env.CLIENT_ORIGIN || "https://hawktok.com");
 
 // Verify SMTP connection on startup
 const transporter = nodemailer.createTransport({
@@ -164,5 +164,5 @@ app.get('/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 CORS allowed origin: ${allowedOrigin}`);
+  console.log(`🔗 CORS allowed origin: ${process.env.CLIENT_ORIGIN || 'https://hawktok.com'}`);
 });
